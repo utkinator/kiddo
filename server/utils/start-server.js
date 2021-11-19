@@ -1,6 +1,7 @@
 import http from 'http'
 import { pino } from 'pino'
 import { createTerminus } from '@godaddy/terminus'
+import { readFile } from 'fs/promises'
 
 import {
     SERVER_REQUEST_TIMEOUT_MS
@@ -55,8 +56,14 @@ export const startServer = (name, app, { port } = {}) => {
 }
 
 const healthCheck = async () => {
+    const pkgJson = JSON.parse(
+        await readFile(
+            new URL('../../package.json', import.meta.url)
+        )
+    )
+
     return {
-        name: 'kiddo',
-        version: '1.0.0'
+        name: pkgJson.name,
+        version: pkgJson.version
     }
 }
