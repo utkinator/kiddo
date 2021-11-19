@@ -1,11 +1,13 @@
-import Koa from 'koa';
+import Koa from 'koa'
 
-export default function createApp () {
-    const app = new Koa();
+function createApp () {
+    const app = new Koa()
 
     app.use(async ctx => {
-        ctx.body = 'Hello From Kiddo Server';
-    });
+        ctx.body = 'Hello From Kiddo Server'
+    })
 
-    return app;
-};
+    return app
+}
+
+export default createApp()
