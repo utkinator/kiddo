@@ -1,0 +1,41 @@
+{
+  "name": "kiddo",
+  "version": "1.0.0",
+  "description": "Games for kids",
+  "main": "start.js",
+  "type": "module",
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utkinator/kiddo.git"
+  },
+  "keywords": [
+    "kids",
+    "games"
+  ],
+  "author": "Vitaliy Utkin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/utkinator/kiddo/issues"
+  },
+  "homepage": "https://github.com/utkinator/kiddo#readme",
+  "dependencies": {
+    "@godaddy/terminus": "^4.9.0",
+    "koa": "^2.13.4",
+    "pino": "^7.3.0",
+    "pino-tee": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "eslint-plugin-react": "^7.27.1",
+    "moment": "^2.29.1"
+  }
+}
