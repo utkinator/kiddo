@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "Games for kids",
   "main": "start.js",
+  "source": "client/index.html",
   "type": "module",
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon start.js"
+    "db:migrate:rollback": "knex migrate:rollback --all --knexfile knexfile.mjs",
+    "db:migrate:latest": "knex migrate:latest --knexfile knexfile.mjs",
+    "db:seed": "knex seed:run --knexfile knexfile.mjs",
+    "db:reset": "npm run db:migrate:rollback && npm run db:migrate:latest && npm run db:seed",
+    "server:start": "npm run db:migrate:latest && nodemon start.js",
+    "client:start": "parcel",
+    "dev": "nf start client,server"
   },
   "repository": {
     "type": "git",
@@ -25,17 +32,24 @@
   "homepage": "https://github.com/utkinator/kiddo#readme",
   "dependencies": {
     "@godaddy/terminus": "^4.9.0",
+    "knex": "^0.95.14",
     "koa": "^2.13.4",
     "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
     "pino": "^7.3.0",
-    "pino-tee": "^0.3.0"
+    "pino-tee": "^0.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.1",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
-    "eslint-plugin-react": "^7.27.1"
+    "eslint-plugin-react": "^7.27.1",
+    "foreman": "^3.0.1",
+    "parcel": "^2.0.1"
   }
 }
