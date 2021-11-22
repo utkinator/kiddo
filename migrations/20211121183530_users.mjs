@@ -1,13 +1,13 @@
 export const up = async (knex) => {
     return knex.schema.createTable('users', table => {
-        table.increments('id').primary()
+        table.uuid('id').primary()
         table.string('username')
-        table.string('email')
+        table.string('email').unique()
+        table.string('password')
         table.integer('role_id')
             .unsigned()
             .references('roles.id')
-        table.datetime('createdAt').notNullable()
-        table.datetime('updatedAt').notNullable()
+        table.timestamps(false, true)
     })
 }
 

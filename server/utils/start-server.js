@@ -6,6 +6,7 @@ import { readFile } from 'fs/promises'
 import {
     SERVER_REQUEST_TIMEOUT_MS
 } from '../lib/constants.js'
+import { db } from '../lib/db.js'
 
 import { getLogStream } from './get-log-stream.js'
 
@@ -45,11 +46,14 @@ export const startServer = (name, app, { port } = {}) => {
         throw error
     })
 
-    app.server.on('listening', () => {
+    app.server.on('listening', async () => {
         const addr = app.server.address()
         const bind = addr.port ? `Port ${addr.port}` : `Pipe ${addr}`
 
         logger.info(`${name}: listening on ${bind}`)
+
+        await db.select(db.raw('1'))
+        logger.info('Database connected')
     })
 
     return app.server

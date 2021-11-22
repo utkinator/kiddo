@@ -15,7 +15,8 @@ const setupMysql = opts => ({
         password: process.env.DB_PASSWORD,
         port: process.env.DB_PORT,
         database: process.env.DB_NAME,
-        charset: 'utf8'
+        charset: 'utf8',
+        timezone: 'UTC'
     },
     pool: {
         afterCreate: (connection, done) => {
@@ -24,7 +25,7 @@ const setupMysql = opts => ({
             })
         }
     },
-    debug: true,
+    debug: false,
     ...opts
 })
 
