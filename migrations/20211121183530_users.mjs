@@ -4,9 +4,9 @@ export const up = async (knex) => {
         table.string('username')
         table.string('email').unique()
         table.string('password')
-        table.integer('role_id')
-            .unsigned()
-            .references('roles.id')
+        table.string('roles', 45)
+            .notNullable()
+            .defaultTo('user')
         table.timestamps(false, true)
     })
 }

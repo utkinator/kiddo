@@ -6,7 +6,8 @@ const generateJWTforUser = (user = {}) => {
     return Object.assign({}, user, {
         token: jwt.sign(
             {
-                sub: _.pick(user, ['id', 'username', 'email'])
+                sub: _.pick(user, ['id', 'username', 'email']),
+                role: _.pick(user, ['roles'])
             },
             config.get('secret'),
             {

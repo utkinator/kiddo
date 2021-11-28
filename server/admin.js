@@ -12,7 +12,7 @@ import userMiddleware from './middleware/user.js'
 
 import routes from './routes/index.js'
 
-function createApp() {
+function createApp () {
     const app = new Koa()
 
     schemas(app)

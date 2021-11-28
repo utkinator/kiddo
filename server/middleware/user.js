@@ -9,7 +9,8 @@ export default async (ctx, next) => {
                 'email',
                 'username',
                 'created_at',
-                'updated_at'
+                'updated_at',
+                'roles'
             )
             .where({ id: ctx.state.jwt.sub.id })
     }
