@@ -1,6 +1,7 @@
 import Koa from 'koa'
 import helmet from 'koa-helmet'
 import bodyParser from 'koa-bodyparser'
+import serve from 'koa-static'
 import cors from 'kcors'
 
 import schemas from './schemas/index.js'
@@ -17,6 +18,7 @@ function createApp () {
     schemas(app)
 
     app.use(helmet())
+    app.use(serve('dist/admin'))
     app.use(
         cors({
             origin: '*',

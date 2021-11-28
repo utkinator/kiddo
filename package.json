@@ -2,9 +2,15 @@
   "name": "kiddo",
   "version": "1.0.0",
   "description": "Games for kids",
-  "main": "start.js",
-  "source": "client/index.html",
   "type": "module",
+  "targets": {
+    "admin": {
+      "source": "client/admin/index.html"
+    },
+    "kiddo": {
+      "source": "client/kiddo/index.html"
+    }
+  },
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,8 +18,8 @@
     "db:migrate:latest": "knex migrate:latest --knexfile knexfile.mjs",
     "db:seed": "knex seed:run --knexfile knexfile.mjs",
     "db:reset": "npm run db:migrate:rollback && npm run db:migrate:latest && npm run db:seed",
+    "client:start": "parcel watch --no-hmr",
     "server:start": "npm run db:migrate:latest && nodemon start.js",
-    "client:start": "parcel",
     "dev": "nf start client,server"
   },
   "repository": {
@@ -43,6 +49,7 @@
     "koa-helmet": "^6.1.0",
     "koa-jwt": "^4.0.3",
     "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
