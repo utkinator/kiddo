@@ -12,7 +12,7 @@ import userMiddleware from './middleware/user.js'
 
 import routes from './routes/index.js'
 
-function createApp () {
+function createApp() {
     const app = new Koa()
 
     schemas(app)
@@ -43,6 +43,12 @@ function createApp () {
 
     app.use(routes.routes())
     app.use(routes.allowedMethods())
+
+    app.use(async (ctx, next) => {
+        ctx.redirect('/')
+
+        await next()
+    })
 
     return app
 }
