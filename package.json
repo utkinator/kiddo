@@ -42,6 +42,7 @@
     "@godaddy/terminus": "^4.9.0",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.1",
+    "@mui/x-data-grid": "^5.0.1",
     "bcrypt": "^5.0.1",
     "config": "^3.3.6",
     "humps": "^2.0.1",

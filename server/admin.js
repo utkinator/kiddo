@@ -38,9 +38,7 @@ function createApp () {
             jsonLimit: '2mb'
         })
     )
-
     app.use(userMiddleware)
-
     app.use(routes.routes())
     app.use(routes.allowedMethods())
 

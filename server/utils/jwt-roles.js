@@ -1,4 +1,4 @@
-import { AuthorizationError } from '../lib/errors.js'
+import { AuthorizationError, AuthenticationError } from '../lib/errors.js'
 
 const jwtRoles = roles => {
     return async function (ctx, next) {
@@ -6,11 +6,7 @@ const jwtRoles = roles => {
             roles = [roles]
         }
 
-        if (!ctx.state || !ctx.state.user) {
-            await next()
-
-            return
-        }
+        ctx.assert(ctx.state.user, new AuthenticationError())
 
         const userRoles = ctx.state.user.roles.split(',') || []
         const foundRoles = roles.filter(role => userRoles.some(userRole => userRole === role))
