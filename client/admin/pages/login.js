@@ -7,13 +7,16 @@ import {
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
 
 import { useAuth } from '../auth'
+import { EmptyLayout } from '../layouts'
 
 const LoginPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const auth = useAuth()
+    // TODO: clean creds
     const [email, setEmail] = useState('v@v.com')
     const [password, setPassword] = useState('password')
 
@@ -32,39 +35,60 @@ const LoginPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        auth.login({ email, password, cb: onSuccessLogin })
+        auth.login({
+            email,
+            password,
+            cb: onSuccessLogin
+        })
     }
 
     return (
-        <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' }
-            }}
-            autoComplete="off"
-        >
-            <TextField
-                required
-                id="email"
-                label="Email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="email@example.com"
-            />
-            <TextField
-                required
-                id="password"
-                label="Password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-            />
-            <Button type="submit">Submit</Button>
-        </Box>
+        <EmptyLayout>
+            <Box
+                component="form"
+                onSubmit={handleSubmit}
+                autoComplete="off"
+            >
+                <Grid
+                    container
+                    spacing={3}
+                >
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            required
+                            id="email"
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            placeholder="email@example.com"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            required
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                        >
+                            Login
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+        </EmptyLayout>
     )
 }
 

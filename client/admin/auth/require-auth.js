@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
     Navigate,
     useLocation
@@ -6,7 +7,7 @@ import {
 
 import { useAuth } from '.'
 
-export const RequireAuth = ({ children }) => {
+export const RequireAuth = ({ children, roles = ['admin', 'moderator'] }) => {
     const auth = useAuth()
     const location = useLocation()
 
@@ -18,5 +19,19 @@ export const RequireAuth = ({ children }) => {
         return <Navigate to="/login" state={{ from: location }} />
     }
 
+    if (roles.length) {
+        const userRoles = auth.user.roles.split(',') || []
+        const foundRoles = roles.filter(role => userRoles.some(userRole => userRole === role))
+
+        if (!foundRoles.length) {
+            return <Navigate to="/login" state={{ from: location }} />
+        }
+    }
+
     return children
+}
+
+RequireAuth.propTypes = {
+    children: PropTypes.element.isRequired,
+    roles: PropTypes.arrayOf(PropTypes.string)
 }

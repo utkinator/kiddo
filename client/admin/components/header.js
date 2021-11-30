@@ -8,6 +8,7 @@ import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import MenuItem from '@mui/material/MenuItem'
+
 import SettingsIcon from '@mui/icons-material/Settings'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -48,7 +49,6 @@ const Header = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -117,11 +117,13 @@ const Header = () => {
                         </IconButton>
                     </Box>
 
-                    <Box sx={{ display: { xs: 'flex' } }}>
+                    <Box sx={{ alignItems: 'center', display: { xs: 'flex' } }}>
                         {
                             auth.user
                                 ? (
                                     <Fragment>
+                                        <Typography mr={1}>{auth.user.username}</Typography>
+                                        <Typography variant="subtitle1" mr={2}>({auth.user.roles})</Typography>
                                         <IconButton
                                             size="large"
                                             aria-label="User Profile"

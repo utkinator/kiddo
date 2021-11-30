@@ -1,4 +1,5 @@
 import React, { useState, createContext } from 'react'
+import PropTypes from 'prop-types'
 import { jwtAuthProvider } from '.'
 
 export const AuthContext = createContext(null)
@@ -23,4 +24,8 @@ export const AuthProvider = ({ children }) => {
     const value = { user, login, logout }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+AuthProvider.propTypes = {
+    children: PropTypes.element.isRequired
 }

@@ -1,7 +1,10 @@
 import React from 'react'
+import { DefaultLayout } from '../layouts'
 
 const ProfilePage = () => (
-    <div>Profile</div>
+    <DefaultLayout>
+        <div>Profile</div>
+    </DefaultLayout>
 )
 
 export default ProfilePage

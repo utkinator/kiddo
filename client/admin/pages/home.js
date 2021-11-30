@@ -1,7 +1,11 @@
+import { Typography } from '@mui/material'
 import React from 'react'
+import { DefaultLayout } from '../layouts'
 
 const HomePage = () => (
-    <div>Home</div>
+    <DefaultLayout>
+        <div>Home</div>
+    </DefaultLayout>
 )
 
 export default HomePage

@@ -14,8 +14,6 @@ import {
     NotFound
 } from './pages'
 
-import Header from './components/header'
-
 import {
     AuthProvider,
     RequireAuth
@@ -27,44 +25,39 @@ const App = () => {
             <CssBaseline />
             <AuthProvider>
                 <BrowserRouter>
-                    <div>
-                        <Header />
-                        <main>
-                            <Routes>
-                                <Route index path="/" element={
-                                    <RequireAuth>
-                                        <Suspense fallback={<>...</>}>
-                                            <Home />
-                                        </Suspense>
-                                    </RequireAuth>
-                                } />
-                                <Route index path="/profile" element={
-                                    <RequireAuth>
-                                        <Suspense fallback={<>...</>}>
-                                            <Profile />
-                                        </Suspense>
-                                    </RequireAuth>
-                                } />
-                                <Route index path="/users" element={
-                                    <RequireAuth>
-                                        <Suspense fallback={<>...</>}>
-                                            <Users />
-                                        </Suspense>
-                                    </RequireAuth>
-                                } />
-                                <Route path="/login" element={
-                                    <Suspense fallback={<>...</>}>
-                                        <Login />
-                                    </Suspense>
-                                } />
-                                <Route path="*" element={
-                                    <Suspense fallback={<>...</>}>
-                                        <NotFound />
-                                    </Suspense>
-                                } />
-                            </Routes>
-                        </main>
-                    </div>
+                    <Routes>
+                        <Route index path="/" element={
+                            <RequireAuth>
+                                <Suspense fallback={<>...</>}>
+                                    <Home />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
+                        <Route index path="/profile" element={
+                            <RequireAuth>
+                                <Suspense fallback={<>...</>}>
+                                    <Profile />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
+                        <Route index path="/users" element={
+                            <RequireAuth>
+                                <Suspense fallback={<>...</>}>
+                                    <Users />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
+                        <Route path="/login" element={
+                            <Suspense fallback={<>...</>}>
+                                <Login />
+                            </Suspense>
+                        } />
+                        <Route path="*" element={
+                            <Suspense fallback={<>...</>}>
+                                <NotFound />
+                            </Suspense>
+                        } />
+                    </Routes>
                 </BrowserRouter>
             </AuthProvider>
         </Fragment>
