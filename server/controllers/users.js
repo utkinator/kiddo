@@ -109,10 +109,15 @@ const login = async (ctx) => {
     ctx.body = { user: _.omit(user, ['password']) }
 }
 
+const updateUserById = (id) => {
+    console.log('updateUserById')
+}
+
 export default {
     get,
-    getUsers,
     post,
     put,
-    login
+    login,
+    getUsers,
+    updateUserById
 }

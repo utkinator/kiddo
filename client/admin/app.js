@@ -1,10 +1,12 @@
 import React, { Suspense, Fragment } from 'react'
 import {
+    HashRouter,
     BrowserRouter,
     Routes,
     Route
 } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import {
     Home,
@@ -24,41 +26,41 @@ const App = () => {
         <Fragment>
             <CssBaseline />
             <AuthProvider>
-                <BrowserRouter>
+                <HashRouter hashType="noslash">
                     <Routes>
                         <Route index path="/" element={
                             <RequireAuth>
-                                <Suspense fallback={<>...</>}>
+                                <Suspense fallback={<CircularProgress />}>
                                     <Home />
                                 </Suspense>
                             </RequireAuth>
                         } />
                         <Route index path="/profile" element={
                             <RequireAuth>
-                                <Suspense fallback={<>...</>}>
+                                <Suspense fallback={<CircularProgress />}>
                                     <Profile />
                                 </Suspense>
                             </RequireAuth>
                         } />
                         <Route index path="/users" element={
                             <RequireAuth>
-                                <Suspense fallback={<>...</>}>
+                                <Suspense fallback={<CircularProgress />}>
                                     <Users />
                                 </Suspense>
                             </RequireAuth>
                         } />
                         <Route path="/login" element={
-                            <Suspense fallback={<>...</>}>
+                            <Suspense fallback={<CircularProgress />}>
                                 <Login />
                             </Suspense>
                         } />
                         <Route path="*" element={
-                            <Suspense fallback={<>...</>}>
+                            <Suspense fallback={<CircularProgress />}>
                                 <NotFound />
                             </Suspense>
                         } />
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
             </AuthProvider>
         </Fragment>
     )

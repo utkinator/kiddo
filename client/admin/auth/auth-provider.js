@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         cb()
     }
 
-    const value = { user, login, logout }
+    const value = { user, login, logout, checkAuth: jwtAuthProvider.checkAuth }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

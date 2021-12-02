@@ -31,9 +31,7 @@ const jwtAuthProvider = {
     },
     checkAuth: async () => {
         try {
-            const { token } = JSON.parse(window.localStorage.getItem('sessionData'))
-
-            console.log('checkAuth', token)
+            const token = jwtAuthProvider.loadAuthToken()
 
             const response = await fetch('/api/user', {
                 headers: {
@@ -41,25 +39,23 @@ const jwtAuthProvider = {
                 }
             })
 
-            console.log('response ->', response)
+            if (!response.ok) {
+                Promise.reject(new Error('Auth expired'))
+                return
+            }
 
-            // if (!response.ok) {
-            //     Promise.reject(new Error('Login failed'))
-            //     return
-            // }
+            const { user } = await response.json()
 
-            // const { user } = await response.json()
+            window.localStorage.setItem('sessionData', JSON.stringify(user))
 
-            // window.localStorage.setItem('sessionData', user.token)
-
-            // return Promise.resolve(user)
+            return Promise.resolve(user)
         } catch (error) {
             return Promise.reject(error)
         }
     },
     loadAuthToken: () => {
         try {
-            const {token} = JSON.parse(window.localStorage.getItem('sessionData'))
+            const { token } = JSON.parse(window.localStorage.getItem('sessionData'))
 
             if (!token) {
                 return null
@@ -74,4 +70,6 @@ const jwtAuthProvider = {
     }
 }
 
-export { jwtAuthProvider }
+export {
+    jwtAuthProvider
+}

@@ -1,14 +1,12 @@
-import { jwtAuthProvider } from './jwt'
+import { jwtAuthProvider } from './jwt-auth-provider'
 import { AuthContext, AuthProvider } from './auth-provider'
 import { useAuth } from './use-auth'
 import { RequireAuth } from './require-auth'
-import { AuthStatus } from './auth-status'
 
 export {
     jwtAuthProvider,
     AuthContext,
     AuthProvider,
-    AuthStatus,
     RequireAuth,
     useAuth
 }

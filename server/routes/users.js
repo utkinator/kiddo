@@ -18,5 +18,7 @@ router.put('/user', auth, ctrl.put)
 // ## ADMIN AREA ##
 // List all users
 router.get('/users', roles('admin'), ctrl.getUsers)
+// Update user by ID
+router.put('/users/:id', roles('admin'), ctrl.updateUserById)
 
 export default router.routes()

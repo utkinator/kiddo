@@ -5,11 +5,11 @@ import Box from '@mui/material/Box'
 
 import Header from '../components/header'
 
-export const DefaultLayout = ({ children }) => {
+export const DefaultLayout = ({ children, maxWidth = 'xl' }) => {
     return (
         <>
             <Header />
-            <Container maxWidth="xl">
+            <Container maxWidth={maxWidth}>
                 <Box pt={3}>
                     <main>
                         {children}
@@ -21,5 +21,6 @@ export const DefaultLayout = ({ children }) => {
 }
 
 DefaultLayout.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    maxWidth: PropTypes.string
 }
