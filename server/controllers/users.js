@@ -109,8 +109,37 @@ const login = async (ctx) => {
     ctx.body = { user: _.omit(user, ['password']) }
 }
 
-const updateUserById = (id) => {
-    console.log('updateUserById')
+const getUserById = async (ctx) => {
+    const user = await db('users')
+        .first()
+        .where({ id: ctx.params.id })
+
+    ctx.body = {
+        user: _.omit(user, ['password'])
+    }
+}
+
+const updateUserById = async (ctx) => {
+    const { body: fields = {} } = ctx.request
+
+    let data = Object.assign({}, fields)
+
+    data = await ctx.app.schemas.user.validate(data, {})
+
+    data.updatedAt = moment().format('YYYY-MM-DD HH:mm:ss')
+
+    await db('users')
+        .first()
+        .where({ id: ctx.params.id })
+        .update(humps.decamelizeKeys(data))
+
+    const user = await db('users')
+        .first()
+        .where({ id: ctx.params.id })
+
+    ctx.body = {
+        user: _.omit(user, ['password'])
+    }
 }
 
 export default {
@@ -119,5 +148,6 @@ export default {
     put,
     login,
     getUsers,
+    getUserById,
     updateUserById
 }

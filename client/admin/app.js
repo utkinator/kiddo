@@ -1,7 +1,6 @@
 import React, { Suspense, Fragment } from 'react'
 import {
     HashRouter,
-    BrowserRouter,
     Routes,
     Route
 } from 'react-router-dom'
@@ -11,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {
     Home,
     Users,
+    User,
     Profile,
     Login,
     NotFound
@@ -35,17 +35,24 @@ const App = () => {
                                 </Suspense>
                             </RequireAuth>
                         } />
-                        <Route index path="/profile" element={
+                        <Route path="/profile" element={
                             <RequireAuth>
                                 <Suspense fallback={<CircularProgress />}>
                                     <Profile />
                                 </Suspense>
                             </RequireAuth>
                         } />
-                        <Route index path="/users" element={
+                        <Route path="/users" element={
                             <RequireAuth>
                                 <Suspense fallback={<CircularProgress />}>
                                     <Users />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
+                        <Route path="/users/:userId" element={
+                            <RequireAuth>
+                                <Suspense fallback={<CircularProgress />}>
+                                    <User />
                                 </Suspense>
                             </RequireAuth>
                         } />

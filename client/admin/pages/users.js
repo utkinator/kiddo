@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import * as moment from 'moment'
+import {
+    Link
+} from 'react-router-dom'
 
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -7,6 +11,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import { DefaultLayout } from '../layouts'
 import { useAuth } from '../auth'
@@ -41,6 +50,7 @@ const UsersList = () => {
                     <TableCell align="right">Roles</TableCell>
                     <TableCell align="right">Created</TableCell>
                     <TableCell align="right">Updated</TableCell>
+                    <TableCell align="right">Actions</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -54,8 +64,31 @@ const UsersList = () => {
                         </TableCell>
                         <TableCell align="right">{email}</TableCell>
                         <TableCell align="right">{roles}</TableCell>
-                        <TableCell align="right">{createdAt}</TableCell>
-                        <TableCell align="right">{updatedAt}</TableCell>
+                        <TableCell align="right">{moment(createdAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
+                        <TableCell align="right">{moment(updatedAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
+                        <TableCell align="right">
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                justifyContent="flex-end"
+                            >
+                                <Button
+                                    component={Link}
+                                    to={`/users/${id}`}
+                                    key={id}
+                                    variant='outlined'
+                                    startIcon={<EditIcon />}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    color="error"
+                                    startIcon={<DeleteIcon />}
+                                >
+                                    Delete
+                                </Button>
+                            </Stack>
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>

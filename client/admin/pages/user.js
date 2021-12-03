@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -8,25 +9,34 @@ import Button from '@mui/material/Button'
 import { DefaultLayout } from '../layouts'
 import { useAuth } from '../auth'
 
-const ProfilePage = () => {
+const UserPage = () => {
     const auth = useAuth()
-
+    const { userId } = useParams()
     const [values, setValues] = useState({
-        username: auth.user.username,
-        email: auth.user.email,
-        roles: auth.user.roles
+        username: '',
+        email: '',
+        roles: ''
     })
 
     useEffect(() => {
-        auth.checkAuth()
-            .then(({ username, email, roles }) => {
-                setValues({
-                    username, email, roles
-                })
+        (async () => {
+            const response = await fetch(`/api/users/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${auth.user.token}`
+                }
             })
-            .catch(response => {
-                console.log('fail', response)
+
+            if (!response.ok) {
+                Promise.reject(new Error(`Error fetching data for user ${userId}: ${response.message}`))
+                return
+            }
+
+            const { user: { username, email, roles } } = await response.json()
+
+            setValues({
+                username, email, roles
             })
+        })()
     }, [])
 
     const handleChange = e => {
@@ -41,7 +51,7 @@ const ProfilePage = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        fetch('/api/user', {
+        fetch(`/api/users/${userId}`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${auth.user.token}`,
@@ -52,7 +62,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <DefaultLayout maxWidth='md'>
+        <DefaultLayout maxWidth="md">
             <Box
                 component="form"
                 autoComplete="off"
@@ -103,4 +113,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage
+export default UserPage

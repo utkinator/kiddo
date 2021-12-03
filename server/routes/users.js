@@ -18,6 +18,8 @@ router.put('/user', auth, ctrl.put)
 // ## ADMIN AREA ##
 // List all users
 router.get('/users', roles('admin'), ctrl.getUsers)
+// Get user by ID
+router.get('/users/:id', roles('admin'), ctrl.getUserById)
 // Update user by ID
 router.put('/users/:id', roles('admin'), ctrl.updateUserById)
 

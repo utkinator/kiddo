@@ -78,6 +78,7 @@
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.27.1",
     "foreman": "^3.0.1",
-    "parcel": "^2.0.1"
+    "parcel": "^2.0.1",
+    "sharp": "^0.29.3"
   }
 }
