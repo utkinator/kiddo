@@ -1,11 +1,7 @@
 import { AuthorizationError, AuthenticationError } from '../lib/errors.js'
 
-const jwtRoles = roles => {
+const jwtRoles = (roles = []) => {
     return async function (ctx, next) {
-        if (typeof roles === 'string') {
-            roles = [roles]
-        }
-
         ctx.assert(ctx.state.user, new AuthenticationError())
 
         const userRoles = ctx.state.user.roles.split(',') || []

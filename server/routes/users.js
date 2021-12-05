@@ -17,12 +17,12 @@ router.put('/user', auth, ctrl.put)
 
 // ## ADMIN AREA ##
 // List all users
-router.get('/users', roles('admin'), ctrl.getUsers)
+router.get('/users', roles(['admin', 'moderator']), ctrl.getUsers)
 // Get user by ID
 router.get('/users/:id', roles(['admin', 'moderator']), ctrl.getUserById)
 // Update user by ID
-router.put('/users/:id', roles('admin'), ctrl.updateUserById)
+router.put('/users/:id', roles(['admin']), ctrl.updateUserById)
 // Delete user by ID
-router.delete('/users/:id', roles('admin'), ctrl.deleteUserById)
+router.delete('/users/:id', roles(['admin']), ctrl.deleteUserById)
 
 export default router.routes()
