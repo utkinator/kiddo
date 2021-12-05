@@ -9,6 +9,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import ListItemText from '@mui/material/ListItemText'
 import Select from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
@@ -28,7 +29,8 @@ const UserPage = () => {
     const [values, setValues] = useState({
         username: '',
         email: '',
-        roles: ''
+        roles: '',
+        active: 0
     })
 
     useEffect(() => {
@@ -44,10 +46,10 @@ const UserPage = () => {
                 return
             }
 
-            const { user: { username, email, roles } } = await response.json()
+            const { user: { username, email, roles, active } } = await response.json()
 
             setValues({
-                username, email, roles
+                username, email, roles, active
             })
         })()
     }, [])
@@ -134,6 +136,27 @@ const UserPage = () => {
                                 ))}
                             </Select>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    id="active"
+                                    label="Active"
+                                    name="active"
+                                    checked={!!values.active}
+                                    onChange={e => {
+                                        setValues(prevValues => {
+                                            return {
+                                                ...prevValues,
+                                                [e.target.name]: e.target.checked ? 1 : 0
+                                            }
+                                        })
+                                    }}
+                                />
+                            }
+                            label="Active"
+                        />
                     </Grid>
 
                     <Grid item xs={12}>

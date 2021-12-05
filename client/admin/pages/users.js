@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import * as moment from 'moment'
 import {
     Link
@@ -22,9 +23,88 @@ import { DefaultLayout } from '../layouts'
 import { NewUserForm, PageBar } from '../components'
 import { useAuth } from '../auth'
 
-const UsersList = () => {
+const UsersList = ({ users, onDeleteUser }) => {
+    if (!users.length) {
+        return <div>No users</div>
+    }
+
+    return <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="users list">
+            <TableHead>
+                <TableRow>
+                    <TableCell>Username</TableCell>
+                    <TableCell align="right">Email</TableCell>
+                    <TableCell align="right">Roles</TableCell>
+                    <TableCell align="right">Active</TableCell>
+                    <TableCell align="right">Created</TableCell>
+                    <TableCell align="right">Updated</TableCell>
+                    <TableCell align="right">Actions</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {users.map(({ id, email, username, roles, active, createdAt, updatedAt }) => (
+                    <TableRow
+                        key={id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                            {username}
+                        </TableCell>
+                        <TableCell align="right">{email}</TableCell>
+                        <TableCell align="right">{roles}</TableCell>
+                        <TableCell align="right">{active}</TableCell>
+                        <TableCell align="right">{moment(createdAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
+                        <TableCell align="right">{moment(updatedAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
+                        <TableCell align="right">
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                justifyContent="flex-end"
+                            >
+                                <Button
+                                    component={Link}
+                                    to={`/users/${id}`}
+                                    key="edit"
+                                    variant='outlined'
+                                    startIcon={<EditIcon />}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    color="error"
+                                    key="delete"
+                                    startIcon={<DeleteIcon />}
+                                    onClick={() => onDeleteUser(id)}
+                                >
+                                    Delete
+                                </Button>
+                            </Stack>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
+    </TableContainer>
+}
+
+UsersList.propTypes = {
+    users: PropTypes.array.isRequired,
+    onDeleteUser: PropTypes.func.isRequired
+}
+
+const UsersPage = () => {
     const auth = useAuth()
     const [users, setUsers] = useState([])
+    const [openUserForm, setOpenUserForm] = useState(false)
+
+    const handleOpenUserForm = () => {
+        setOpenUserForm(true)
+    }
+
+    const handleCloseUserForm = () => {
+        setOpenUserForm(false)
+        fetchUsers()
+    }
 
     const fetchUsers = () => {
         fetch('/api/users', {
@@ -57,78 +137,6 @@ const UsersList = () => {
             })
     }
 
-    if (!users.length) {
-        return <div>No users</div>
-    }
-
-    return <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="users list">
-            <TableHead>
-                <TableRow>
-                    <TableCell>Username</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">Roles</TableCell>
-                    <TableCell align="right">Created</TableCell>
-                    <TableCell align="right">Updated</TableCell>
-                    <TableCell align="right">Actions</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {users.map(({ id, email, username, roles, createdAt, updatedAt }) => (
-                    <TableRow
-                        key={id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell component="th" scope="row">
-                            {username}
-                        </TableCell>
-                        <TableCell align="right">{email}</TableCell>
-                        <TableCell align="right">{roles}</TableCell>
-                        <TableCell align="right">{moment(createdAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
-                        <TableCell align="right">{moment(updatedAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
-                        <TableCell align="right">
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                justifyContent="flex-end"
-                            >
-                                <Button
-                                    component={Link}
-                                    to={`/users/${id}`}
-                                    key="edit"
-                                    variant='outlined'
-                                    startIcon={<EditIcon />}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    color="error"
-                                    key="delete"
-                                    startIcon={<DeleteIcon />}
-                                    onClick={() => handleDeleteUser(id)}
-                                >
-                                    Delete
-                                </Button>
-                            </Stack>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-}
-
-const UsersPage = () => {
-    const [openUserForm, setOpenUserForm] = useState(false)
-
-    const handleOpenUserForm = () => {
-        setOpenUserForm(true)
-    }
-
-    const handleCloseUserForm = () => {
-        setOpenUserForm(false)
-    }
-
     return (
         <DefaultLayout>
             <PageBar>
@@ -142,12 +150,15 @@ const UsersPage = () => {
                     Add New User
                 </Button>
             </PageBar>
-            { openUserForm && (
+            {openUserForm && (
                 <NewUserForm
                     onClose={handleCloseUserForm}
                 />
-            ) }
-            <UsersList />
+            )}
+            <UsersList
+                users={users}
+                onDeleteUser={handleDeleteUser}
+            />
         </DefaultLayout>
     )
 }

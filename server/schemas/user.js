@@ -37,7 +37,11 @@ const userSchema = yup
             .string()
             .required()
             .lowercase()
-            .trim()
+            .trim(),
+
+        active: yup
+            .bool()
+            .required()
     })
     .noUnknown()
 

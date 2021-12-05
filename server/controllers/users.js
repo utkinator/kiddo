@@ -33,7 +33,8 @@ const post = async (ctx) => {
     let user = {
         ...body,
         id: uuidv4(),
-        roles: 'user'
+        roles: 'user',
+        active: 0
     }
 
     user = await ctx.app.schemas.user.validate(user, opts)

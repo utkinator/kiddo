@@ -7,6 +7,7 @@ export const up = async (knex) => {
         table.string('roles', 45)
             .notNullable()
             .defaultTo('user')
+        table.boolean('active').defaultTo(false)
         table.timestamps(false, true)
     })
 }
