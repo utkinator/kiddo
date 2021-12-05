@@ -16,8 +16,10 @@ import Stack from '@mui/material/Stack'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 import { DefaultLayout } from '../layouts'
+import { NewUserForm, PageBar } from '../components'
 import { useAuth } from '../auth'
 
 const UsersList = () => {
@@ -103,7 +105,7 @@ const UsersList = () => {
                                     color="error"
                                     key="delete"
                                     startIcon={<DeleteIcon />}
-                                    onClick={e => handleDeleteUser(id)}
+                                    onClick={() => handleDeleteUser(id)}
                                 >
                                     Delete
                                 </Button>
@@ -116,10 +118,38 @@ const UsersList = () => {
     </TableContainer>
 }
 
-const UsersPage = () => (
-    <DefaultLayout>
-        <UsersList />
-    </DefaultLayout>
-)
+const UsersPage = () => {
+    const [openUserForm, setOpenUserForm] = useState(false)
+
+    const handleOpenUserForm = () => {
+        setOpenUserForm(true)
+    }
+
+    const handleCloseUserForm = () => {
+        setOpenUserForm(false)
+    }
+
+    return (
+        <DefaultLayout>
+            <PageBar>
+                <Button
+                    variant="outlined"
+                    color="success"
+                    key="add-new-user"
+                    startIcon={<AddIcon />}
+                    onClick={handleOpenUserForm}
+                >
+                    Add New User
+                </Button>
+            </PageBar>
+            { openUserForm && (
+                <NewUserForm
+                    onClose={handleCloseUserForm}
+                />
+            ) }
+            <UsersList />
+        </DefaultLayout>
+    )
+}
 
 export default UsersPage

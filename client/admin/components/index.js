@@ -1,7 +1,9 @@
 import Header from './header'
-import Link from './link'
+import NewUserForm from './new-user-form'
+import PageBar from './page-bar'
 
 export {
     Header,
-    Link
+    NewUserForm,
+    PageBar
 }

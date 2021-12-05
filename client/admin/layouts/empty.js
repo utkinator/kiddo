@@ -20,5 +20,5 @@ export const EmptyLayout = ({ children }) => {
 }
 
 EmptyLayout.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.node.isRequired
 }

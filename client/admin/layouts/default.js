@@ -21,6 +21,6 @@ export const DefaultLayout = ({ children, maxWidth = 'xl' }) => {
 }
 
 DefaultLayout.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
     maxWidth: PropTypes.string
 }
