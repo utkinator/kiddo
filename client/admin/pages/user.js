@@ -5,9 +5,22 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import ListItemText from '@mui/material/ListItemText'
+import Select from '@mui/material/Select'
+import Checkbox from '@mui/material/Checkbox'
 
 import { DefaultLayout } from '../layouts'
 import { useAuth } from '../auth'
+
+const availableRoles = [
+    'user',
+    'moderator',
+    'admin'
+]
 
 const UserPage = () => {
     const auth = useAuth()
@@ -43,13 +56,17 @@ const UserPage = () => {
         setValues(prevValues => {
             return {
                 ...prevValues,
-                [e.target.name]: e.target.value
+                [e.target.name]: Array.isArray(e.target.value)
+                    ? e.target.value.join(',')
+                    : e.target.value
             }
         })
     }
 
     const handleSubmit = e => {
         e.preventDefault()
+
+        console.log(values)
 
         fetch(`/api/users/${userId}`, {
             method: 'PUT',
@@ -97,6 +114,28 @@ const UserPage = () => {
                             onChange={handleChange}
                             placeholder="email@example.com"
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl sx={{ width: 300 }}>
+                            <InputLabel id="roles">Roles</InputLabel>
+                            <Select
+                                labelId="roles"
+                                id="roles-selector"
+                                multiple
+                                value={values.roles.split(',')}
+                                onChange={handleChange}
+                                input={<OutlinedInput label="Roles" />}
+                                renderValue={(selected) => selected.join(', ')}
+                                name="roles"
+                            >
+                                {availableRoles.map((role) => (
+                                    <MenuItem key={role} value={role}>
+                                        <Checkbox checked={values.roles.indexOf(role) > -1} />
+                                        <ListItemText primary={role} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>

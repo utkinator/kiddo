@@ -24,7 +24,7 @@ const UsersList = () => {
     const auth = useAuth()
     const [users, setUsers] = useState([])
 
-    useEffect(() => {
+    const fetchUsers = () => {
         fetch('/api/users', {
             headers: {
                 Authorization: `Bearer ${auth.user.token}`
@@ -35,7 +35,25 @@ const UsersList = () => {
             .catch(error => {
                 console.log('Error fetching users:', error)
             })
+    }
+
+    useEffect(() => {
+        fetchUsers()
     }, [])
+
+    const handleDeleteUser = id => {
+        fetch(`/api/users/${id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${auth.user.token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => fetchUsers())
+            .catch(error => {
+                console.log(`Error deletion user ${id}:`, error)
+            })
+    }
 
     if (!users.length) {
         return <div>No users</div>
@@ -75,7 +93,7 @@ const UsersList = () => {
                                 <Button
                                     component={Link}
                                     to={`/users/${id}`}
-                                    key={id}
+                                    key="edit"
                                     variant='outlined'
                                     startIcon={<EditIcon />}
                                 >
@@ -83,7 +101,9 @@ const UsersList = () => {
                                 </Button>
                                 <Button
                                     color="error"
+                                    key="delete"
                                     startIcon={<DeleteIcon />}
+                                    onClick={e => handleDeleteUser(id)}
                                 >
                                     Delete
                                 </Button>

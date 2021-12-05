@@ -142,6 +142,26 @@ const updateUserById = async (ctx) => {
     }
 }
 
+const deleteUserById = async (ctx) => {
+    const currentUser = ctx.state.user
+
+    if (currentUser.id === ctx.params.id) {
+        const err = new Error('Could not delete yourself')
+
+        ctx.status = 403
+        ctx.body = err.message
+
+        return
+    }
+
+    await db('users')
+        .first()
+        .where({ id: ctx.params.id })
+        .del()
+
+    ctx.body = {}
+}
+
 export default {
     get,
     post,
@@ -149,5 +169,6 @@ export default {
     login,
     getUsers,
     getUserById,
-    updateUserById
+    updateUserById,
+    deleteUserById
 }

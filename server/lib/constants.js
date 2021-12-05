@@ -5,3 +5,5 @@ export const CONTENT_REQUEST_TIMEOUT_MS = moment.duration(30, 'seconds').asMilli
 export const SERVER_REQUEST_TIMEOUT_MS = moment.duration(10, 'minutes').asMilliseconds()
 export const SERVICE_APP_PORT = parseInt(process.env.SERVICE_APP_PORT, 10) || 3000
 export const SERVICE_ADMIN_PORT = parseInt(process.env.SERVICE_ADMIN_PORT, 10) || 3100
+
+export const ROLES = ['admin', 'moderator', 'user']

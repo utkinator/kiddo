@@ -31,8 +31,13 @@ const userSchema = yup
             .required()
             .max(30)
             .default('')
-            .trim()
+            .trim(),
 
+        roles: yup
+            .string()
+            .required()
+            .lowercase()
+            .trim()
     })
     .noUnknown()
 
