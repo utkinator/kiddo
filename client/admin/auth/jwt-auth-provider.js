@@ -41,6 +41,7 @@ const jwtAuthProvider = {
 
             if (!response.ok) {
                 Promise.reject(new Error('Auth expired'))
+
                 return
             }
 

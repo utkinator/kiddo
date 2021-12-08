@@ -2,7 +2,9 @@ import Koa from 'koa'
 import helmet from 'koa-helmet'
 import bodyParser from 'koa-bodyparser'
 import serve from 'koa-static'
+import koaCompress from 'koa-compress'
 import cors from 'kcors'
+import { constants } from 'zlib'
 
 import schemas from './schemas/index.js'
 
@@ -17,6 +19,15 @@ function createApp () {
 
     schemas(app)
 
+    app.use(koaCompress({
+        gzip: {
+            flush: constants.Z_SYNC_FLUSH
+        },
+        deflate: {
+            flush: constants.Z_SYNC_FLUSH
+        },
+        br: false
+    }))
     app.use(helmet())
     app.use(serve('dist/admin'))
     app.use(
