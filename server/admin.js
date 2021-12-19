@@ -30,6 +30,7 @@ function createApp () {
     }))
     app.use(helmet())
     app.use(serve('dist/admin'))
+    app.use(serve('public/apps'))
     app.use(
         cors({
             origin: '*',
@@ -53,11 +54,11 @@ function createApp () {
     app.use(routes.routes())
     app.use(routes.allowedMethods())
 
-    app.use(async (ctx, next) => {
-        ctx.redirect('/')
+    // app.use(async (ctx, next) => {
+    //     ctx.redirect('/')
 
-        await next()
-    })
+    //     await next()
+    // })
 
     return app
 }

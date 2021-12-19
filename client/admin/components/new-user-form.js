@@ -61,7 +61,6 @@ const NewUserForm = ({ onClose, ...other }) => {
     }
 
     return (
-
         <Dialog open>
             <Box
                 component="form"

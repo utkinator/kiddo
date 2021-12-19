@@ -11,6 +11,8 @@ import {
     Home,
     Users,
     User,
+    Apps,
+    App,
     Profile,
     Login,
     NotFound
@@ -21,7 +23,7 @@ import {
     RequireAuth
 } from './auth'
 
-const App = () => {
+const AdminApp = () => {
     return (
         <Fragment>
             <CssBaseline />
@@ -56,6 +58,20 @@ const App = () => {
                                 </Suspense>
                             </RequireAuth>
                         } />
+                        <Route path="/apps" element={
+                            <RequireAuth>
+                                <Suspense fallback={<CircularProgress />}>
+                                    <Apps />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
+                        <Route path="/apps/:appHash" element={
+                            <RequireAuth>
+                                <Suspense fallback={<CircularProgress />}>
+                                    <App />
+                                </Suspense>
+                            </RequireAuth>
+                        } />
                         <Route path="/login" element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Login />
@@ -73,4 +89,4 @@ const App = () => {
     )
 }
 
-export default App
+export default AdminApp

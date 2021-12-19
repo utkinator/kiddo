@@ -14,6 +14,7 @@ import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import HomeIcon from '@mui/icons-material/Home'
 import GroupIcon from '@mui/icons-material/Group'
+import AppsIcon from '@mui/icons-material/Apps'
 
 import {
     Link,
@@ -94,6 +95,14 @@ const Header = () => {
                             >
                                 <Typography textAlign="center">Users</Typography>
                             </MenuItem>
+                            <MenuItem
+                                key="apps"
+                                onClick={handleCloseNavMenu}
+                                component={Link}
+                                to="/apps"
+                            >
+                                <Typography textAlign="center">Apps</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -114,6 +123,15 @@ const Header = () => {
                             sx={{ color: 'white' }}
                         >
                             <GroupIcon />
+                        </IconButton>
+                        <IconButton
+                            key="apps"
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/apps"
+                            sx={{ color: 'white' }}
+                        >
+                            <AppsIcon />
                         </IconButton>
                     </Box>
 

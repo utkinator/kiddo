@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { rmdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import tar from 'tar'
@@ -53,6 +54,38 @@ const post = async (ctx) => {
     }
 }
 
+const getApps = async (ctx) => {
+    ctx.body = { apps: await db('apps') }
+}
+
+const getAppByHash = async (ctx) => {
+    const app = await db('apps')
+        .first()
+        .where({ hash: ctx.params.hash })
+
+    ctx.body = {
+        app: app
+    }
+}
+
+const deleteAppByHash = async (ctx) => {
+    await db('apps')
+        .first()
+        .where({ hash: ctx.params.hash })
+        .del()
+
+    const appDir = path.join('./public/apps', ctx.params.hash)
+
+    if (fs.existsSync(appDir)) {
+        fs.rmSync(appDir, { recursive: true, force: true })
+    }
+
+    ctx.body = {}
+}
+
 export default {
-    post
+    post,
+    getApps,
+    getAppByHash,
+    deleteAppByHash
 }

@@ -14,13 +14,6 @@ const get = async (ctx) => {
     ctx.body = { user }
 }
 
-const getUsers = async (ctx) => {
-    const users = await db('users')
-    const filteredUsers = _.map(users, user => _.omit(user, ['password']))
-
-    ctx.body = { users: filteredUsers }
-}
-
 const post = async (ctx) => {
     const { body } = ctx.request
     const opts = {
@@ -109,6 +102,13 @@ const login = async (ctx) => {
     user = generateJWTforUser(user)
 
     ctx.body = { user: _.omit(user, ['password']) }
+}
+
+const getUsers = async (ctx) => {
+    const users = await db('users')
+    const filteredUsers = _.map(users, user => _.omit(user, ['password']))
+
+    ctx.body = { users: filteredUsers }
 }
 
 const getUserById = async (ctx) => {
