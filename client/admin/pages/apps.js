@@ -17,70 +17,102 @@ import Stack from '@mui/material/Stack'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import PreviewIcon from '@mui/icons-material/Preview'
 
 import { DefaultLayout } from '../layouts'
+import { PreviewApp } from '../components'
 import { useAuth } from '../auth'
 
 const AppsList = ({ apps, onDeleteApp }) => {
+    const [openPreviewApp, setOpenPreviewApp] = useState(false)
+    const [previewHash, setPreviewHash] = useState(null)
+
+    const handleOpenPreviewApp = (hash) => {
+        setPreviewHash(hash)
+        setOpenPreviewApp(true)
+    }
+
+    const handleClosePreviewApp = () => {
+        setPreviewHash(null)
+        setOpenPreviewApp(false)
+    }
+
     if (!apps.length) {
         return <div>No apps</div>
     }
 
-    return <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="apps list">
-            <TableHead>
-                <TableRow>
-                    <TableCell>Hash</TableCell>
-                    <TableCell align="right">Code</TableCell>
-                    <TableCell align="right">Version</TableCell>
-                    <TableCell align="right">Created</TableCell>
-                    <TableCell align="right">Updated</TableCell>
-                    <TableCell align="right">Actions</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {apps.map(({ hash, code, version, createdAt, updatedAt }) => (
-                    <TableRow
-                        key={hash}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell component="th" scope="row">
-                            {hash}
-                        </TableCell>
-                        <TableCell align="right">{code}</TableCell>
-                        <TableCell align="right">{version}</TableCell>
-                        <TableCell align="right">{moment(createdAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
-                        <TableCell align="right">{moment(updatedAt).format('MM.DD.YYYY, hh:mm:ss')}</TableCell>
-                        <TableCell align="right">
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                justifyContent="flex-end"
+    return (
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="apps list">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Hash</TableCell>
+                            <TableCell align="right">Code</TableCell>
+                            <TableCell align="right">Version</TableCell>
+                            <TableCell align="right">Created</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {apps.map(({ hash, code, version, createdAt }) => (
+                            <TableRow
+                                key={hash}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <Button
-                                    component={Link}
-                                    to={`/apps/${hash}`}
-                                    key="edit"
-                                    variant='outlined'
-                                    startIcon={<EditIcon />}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    color="error"
-                                    key="delete"
-                                    startIcon={<DeleteIcon />}
-                                    onClick={() => onDeleteApp(hash)}
-                                >
-                                    Delete
-                                </Button>
-                            </Stack>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
+                                <TableCell component="th" scope="row">
+                                    {hash}
+                                </TableCell>
+                                <TableCell align="right">{code}</TableCell>
+                                <TableCell align="right">{version}</TableCell>
+                                <TableCell align="right">{moment(createdAt).format('MM.DD.YYYY, HH:mm:ss')}</TableCell>
+                                <TableCell align="right">
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}
+                                        justifyContent="flex-end"
+                                    >
+                                        <Button
+                                            component={Link}
+                                            to={`/apps/${hash}`}
+                                            key="edit"
+                                            variant='outlined'
+                                            startIcon={<EditIcon />}
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            key="preview-app"
+                                            startIcon={<PreviewIcon />}
+                                            onClick={() => handleOpenPreviewApp(hash)}
+                                        >
+                                            Preview
+                                        </Button>
+                                        <Button
+                                            color="error"
+                                            key="delete"
+                                            startIcon={<DeleteIcon />}
+                                            onClick={() => onDeleteApp(hash)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Stack>
+
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {openPreviewApp && (
+                <PreviewApp
+                    hash={previewHash}
+                    onClose={handleClosePreviewApp}
+                />
+            )}
+        </>
+    )
 }
 
 AppsList.propTypes = {

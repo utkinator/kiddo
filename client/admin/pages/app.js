@@ -55,7 +55,9 @@ const AppPage = () => {
                     Preview
                 </Button>
             </PageBar>
-            {JSON.stringify(values)}
+            <code>
+                {JSON.stringify(values)}
+            </code>
             {openPreviewApp && (
                 <PreviewApp
                     hash={appHash}
