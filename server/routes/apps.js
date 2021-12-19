@@ -3,12 +3,12 @@ import path from 'path'
 import Router from 'koa-router'
 import koaBody from 'koa-body'
 
-import ctrl from '../controllers/assets.js'
+import ctrl from '../controllers/apps.js'
 
 const router = new Router()
 
 router.post(
-    '/assets/upload',
+    '/apps/upload',
     koaBody({
         multipart: true,
         formidable: {

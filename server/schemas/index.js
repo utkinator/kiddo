@@ -1,7 +1,9 @@
 import user from './user.js'
+import app from './app.js'
 
-export default (app) => {
-    app.schemas = {
-        user
+export default (koaApp) => {
+    koaApp.schemas = {
+        user,
+        app
     }
 }
